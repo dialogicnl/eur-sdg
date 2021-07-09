@@ -1,0 +1,9 @@
+version: '3.3'
+
+services:
+  app:
+    image: sdg_webservice
+    volumes:
+    - "./:/usr/src/app"
+    ports:
+    - "6007:5000"
