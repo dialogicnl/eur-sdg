@@ -2,9 +2,9 @@
 
 In 2015 the United Nations has introducted the 17 Sustainable Development Goals (SDGs). The SDGs cover a wide range of sustainability topics such as reducing poverty (SDG-1) and promoting quality education (SDG-4).  
 
-Dialogic Innovatie & Interactie has developed an open-source text classifier (dubbed the EUR-SDG-mapper) for the Erasmus University Rotterdam that can determine the relevance of a (academic) document for each SDG. This repository contains scripts related to the EUR-SDG-Mapper. This repository combines the effort two projects:
+[Dialogic Innovatie & Interactie](https://dialogic.nl/en) has developed an open-source text classifier (dubbed the EUR-SDG-mapper) for the Erasmus University Rotterdam that can determine the relevance of a (academic) document for each SDG. This repository contains scripts related to the EUR-SDG-Mapper. This repository combines the effort two projects:
 
-*  SDG webservice: webservice/API to make predictions with the model
+*  SDG webservice: web service/API to make predictions with the model
 *  SDG large corpus indexing: Scripts to make predictions over long documents. 
 
 The code and models contained in this repository are licenced under a GPLv3 license except when otherwise noted. For details see LICENCE.
