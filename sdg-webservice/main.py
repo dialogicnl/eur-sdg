@@ -27,15 +27,32 @@ import torch
 from tqdm.autonotebook import tqdm
 from transformers import BertConfig
 import json
+import argparse
+
+parser = argparse.ArgumentParser(description='SDG Webserver')
+parser.add_argument('--batch_size', 
+                    help='model batch size', 
+                    default=16,
+                    type=int)
+parser.add_argument('--gpu', 
+                    help='Run model on GPU', 
+                    default=True, 
+                    type=bool)
+parser.add_argument('--port', 
+                    help='port number to run the server', 
+                    default=5000,
+                    type=int)
+
+args = parser.parse_args()
 
 app = Flask(__name__)
 
+device = torch.device('cuda' if args.gpu else 'cpu')
 model_config = BertConfig.from_pretrained('bert-base-uncased')
 model_config.output_hidden_states = True
-model = SDGModel(conf=model_config)
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model.load_state_dict(torch.load('../models/model_2.bin', map_location=device)['model_state_dict'])
 
+model = SDGModel(conf=model_config)
+model.load_state_dict(torch.load('../models/model_2.bin', map_location=device)['model_state_dict'])
 model.eval()
 model.to(device)
 
@@ -74,7 +91,7 @@ def sdgModel():
 
     test_data_loader = torch.utils.data.DataLoader(
         test_dataset,
-        batch_size=16,
+        batch_size=args.batch_size,
         num_workers=1,
         shuffle=False
     )
@@ -114,4 +131,4 @@ def sdgModel():
 
 if __name__ == "__main__":
     print("SDG server is running")
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=args.port)
