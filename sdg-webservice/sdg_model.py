@@ -22,17 +22,10 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 import warnings
 warnings.filterwarnings('ignore')
 
-import os
-import re
-import numpy as np
-import pandas as pd
 import torch
 import torch.nn as nn
-from transformers import BertPreTrainedModel, BertModel, BertConfig, get_linear_schedule_with_warmup
+from transformers import BertPreTrainedModel, BertModel, BertConfig
 import tokenizers
-from tqdm.autonotebook import tqdm
-import json
-
 
 
 class SDGconfig:
