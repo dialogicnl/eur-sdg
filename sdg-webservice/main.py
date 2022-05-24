@@ -65,17 +65,18 @@ def wrapped(f):
 def sdgModel():
 
 
-    text = request.args.get('text')
-    print(text)
+    texts = request.get_json()['data']
+    print(texts)
     outs = []
 
     test_dataset = SDGDataset(
-        abstract=text)
+        abstract=texts)
 
     test_data_loader = torch.utils.data.DataLoader(
         test_dataset,
         batch_size=16,
-        num_workers=16
+        num_workers=1,
+        shuffle=False
     )
     tk0 = tqdm(test_data_loader, total=len(test_data_loader))
     with torch.no_grad():
@@ -97,12 +98,17 @@ def sdgModel():
             outs.append(np.round(torch.sigmoid(preds).cpu().detach().numpy(), 2))
 
     outs = np.vstack(outs)
-    output_dic = dict()
-    for i in range(1, 18):
-        key = 'SDG ' + str(i)
-        value = str(outs[:, i - 1][0])
-        output_dic[key] = value
-    resp = Response(json.dumps(output_dic))
+    
+    output_dict = dict()
+    for idx, text in enumerate(texts):
+        sample_dict = dict()
+        for sdg_index in range(1, 18):
+            key = 'SDG ' + str(sdg_index)
+            value = str(outs[:, sdg_index - 1][idx])
+            sample_dict[key] = value
+            output_dict[text] = sample_dict
+
+    resp = Response(json.dumps(output_dict))
     return resp
 
 
