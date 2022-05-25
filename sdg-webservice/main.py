@@ -119,10 +119,10 @@ def sdgModel():
             key = 'sdg' + str(sdg_index)
             value = str(outs[:, sdg_index - 1][idx])
             sample_dict[key] = value
-            results.append({
-                "text": text,
-                "scores": sample_dict
-            })
+        results.append({
+            "text": text,
+            "scores": sample_dict
+        })
 
     resp = Response(json.dumps(results))
     return resp
