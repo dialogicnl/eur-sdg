@@ -112,15 +112,19 @@ def sdgModel():
     outs = np.vstack(outs)
     
     output_dict = dict()
+    results = []
     for idx, text in enumerate(texts):
         sample_dict = dict()
         for sdg_index in range(1, 18):
-            key = 'SDG ' + str(sdg_index)
+            key = 'sdg' + str(sdg_index)
             value = str(outs[:, sdg_index - 1][idx])
             sample_dict[key] = value
-            output_dict[text] = sample_dict
+            results.append({
+                "text": text,
+                "scores": sample_dict
+            })
 
-    resp = Response(json.dumps(output_dict))
+    resp = Response(json.dumps(results))
     return resp
 
 
