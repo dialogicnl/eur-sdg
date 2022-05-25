@@ -18,17 +18,19 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-import os
 from flask import Flask, Response
 from flask import request, make_response
+from functools import wraps
 from sdg_model import SDGModel, SDGDataset
-import numpy as np
-import torch
 from tqdm.autonotebook import tqdm
 from transformers import BertConfig
-import json
 import argparse
 import config
+import json
+import numpy as np
+import os
+import threading
+import torch
 
 app = Flask(__name__)
 
@@ -40,6 +42,8 @@ model = SDGModel(conf=model_config)
 model.load_state_dict(torch.load(config.MODEL_PATH, map_location=device)['model_state_dict'])
 model.eval()
 model.to(device)
+
+model_lock = threading.Lock()
 
 def wrapped(f):
     @wraps(f)
@@ -62,8 +66,14 @@ def wrapped(f):
 
     return decorated_function
 
+@app.route('/', methods=['GET', 'POST'])
+@wrapped
+def index():
+    resp = Response(json.dumps({}))
+    return resp
 
 @app.route('/sdg', methods=['POST'])
+@wrapped
 def sdgModel():
 
 
