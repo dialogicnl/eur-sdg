@@ -2,8 +2,12 @@ version: '3.3'
 
 services:
   app:
-    image: sdg_webservice
+    build: .
+    container_name: sdg_webservice
+    environment:
+      - MODEL_DIR=/models
+      - USE_GPU=no
     volumes:
-    - "./:/usr/src/app"
+    - "../models:/models"
     ports:
     - "6007:5000"

@@ -26,15 +26,15 @@ import torch
 import torch.nn as nn
 from transformers import BertPreTrainedModel, BertModel, BertConfig
 import tokenizers
-
+import config
 
 class SDGconfig:
     MAX_LEN = 512
     VALID_BATCH_SIZE = 16
-    MODEL_PATH = "../models/model_2.bin",
+    MODEL_PATH = config.MODEL_PATH,
     BERT_PATH = 'bert-base-uncased'
     TOKENIZER = tokenizers.BertWordPieceTokenizer(
-        "../models/bert-base-uncased-vocab.txt",
+        config.VOCAB_PATH,
         lowercase=True
     )
 def process_data(abstract,tokenizer, max_len):

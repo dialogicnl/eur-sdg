@@ -23,5 +23,5 @@ import requests
 data = {"data":["Globally, the number of people living in extreme poverty declined from 36 per cent in 1990 to 10 per cent in 2015. ",
                 "Education enables upward socioeconomic mobility and is a key to escaping poverty. Over the past decade, major progress was made towards increasing access to education and school enrollment rates at all levels, particularly for girls. "]}
 
-res = requests.post('http://192.168.0.99:5000/sdg', json=data)
+res = requests.post('http://localhost:6007/sdg', json=data)
 print(res.json())
