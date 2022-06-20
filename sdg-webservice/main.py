@@ -76,9 +76,15 @@ def index():
 @wrapped
 def sdgModel():
 
+    json_input = request.get_json()['data']
+    
+    texts = []
+    input_ids = []
+    for item in json_input:
+        for key, value in item.items():
+            input_ids.append(key)
+            texts.append(value)
 
-    texts = request.get_json()['data']
-    print(texts)
     outs = []
 
     test_dataset = SDGDataset(
@@ -120,7 +126,7 @@ def sdgModel():
             value = str(outs[:, sdg_index - 1][idx])
             sample_dict[key] = value
         results.append({
-            "text": text,
+            "id": input_ids[idx],
             "scores": sample_dict
         })
 
